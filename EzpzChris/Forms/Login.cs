@@ -8,8 +8,8 @@
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
-    using EzpzChris.EzTV;
-    using EzpzChris.Web;
+    using EzTV;
+    using Web;
 
     #endregion
 

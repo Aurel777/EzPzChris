@@ -4,7 +4,7 @@
 
     using System;
 
-    using EzpzChris.Show;
+    using Show;
 
     using Newtonsoft.Json;
 

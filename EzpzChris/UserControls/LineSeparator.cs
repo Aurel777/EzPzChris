@@ -6,7 +6,7 @@
     using System.Drawing;
     using System.Windows.Forms;
 
-    using EzpzChris.Utilities;
+    using Utilities;
 
     #endregion
 

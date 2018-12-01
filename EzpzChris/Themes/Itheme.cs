@@ -13,6 +13,7 @@
 
         Color BackgroundColor { get; set; }
         Color BackgroundColor2 { get; set; }
+        Color BackgroundColorDisabled { get; set; }
         Color BorderDarkerColor { get; set; }
         Color BorderColor { get; set; }
 

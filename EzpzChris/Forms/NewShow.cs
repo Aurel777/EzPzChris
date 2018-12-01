@@ -9,9 +9,9 @@
     using System.Linq;
     using System.Windows.Forms;
 
-    using EzpzChris.Imdb;
-    using EzpzChris.Show;
-    using EzpzChris.Utilities;
+    using Imdb;
+    using Show;
+    using Utilities;
 
     #endregion
 

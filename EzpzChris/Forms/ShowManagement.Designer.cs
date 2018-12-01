@@ -2,15 +2,8 @@
 {
     partial class ShowManagement
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,12 +15,11 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
+            EzpzChris.UserControls.ListView.Cell cell1 = new EzpzChris.UserControls.ListView.Cell();
+            EzpzChris.UserControls.ListView.Cell cell2 = new EzpzChris.UserControls.ListView.Cell();
+            EzpzChris.UserControls.ListView.Cell cell3 = new EzpzChris.UserControls.ListView.Cell();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShowManagement));
             this.PanelBottom = new System.Windows.Forms.Panel();
             this.ButtonCancel = new System.Windows.Forms.Button();
@@ -37,6 +29,9 @@
             this.ButtonAdd = new System.Windows.Forms.Button();
             this.ButtonEdit = new System.Windows.Forms.Button();
             this.ButtonDelete = new System.Windows.Forms.Button();
+            this.LineBottom = new EzpzChris.UserControls.LineSeparator();
+            this.LineTop = new EzpzChris.UserControls.LineSeparator();
+            this.ListViewShow = new EzpzChris.UserControls.ListView.ListView();
             this.PanelBottom.SuspendLayout();
             this.PanelTop.SuspendLayout();
             this.SuspendLayout();
@@ -93,9 +88,9 @@
             this.PanelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.PanelTop.Location = new System.Drawing.Point(0, 0);
             this.PanelTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.PanelTop.MaximumSize = new System.Drawing.Size(0, 74);
+            this.PanelTop.MaximumSize = new System.Drawing.Size(0, 70);
             this.PanelTop.Name = "PanelTop";
-            this.PanelTop.Size = new System.Drawing.Size(825, 74);
+            this.PanelTop.Size = new System.Drawing.Size(825, 70);
             this.PanelTop.TabIndex = 12;
             // 
             // LabelTitle
@@ -160,11 +155,75 @@
             this.ButtonDelete.UseVisualStyleBackColor = false;
             this.ButtonDelete.Click += new System.EventHandler(this.ButtonDelete_Click);
             // 
+            // LineBottom
+            // 
+            this.LineBottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(134)))), ((int)(((byte)(190)))));
+            this.LineBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.LineBottom.Location = new System.Drawing.Point(0, 473);
+            this.LineBottom.Name = "LineBottom";
+            this.LineBottom.Size = new System.Drawing.Size(825, 1);
+            this.LineBottom.TabIndex = 19;
+            // 
+            // LineTop
+            // 
+            this.LineTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(134)))), ((int)(((byte)(190)))));
+            this.LineTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.LineTop.Location = new System.Drawing.Point(0, 70);
+            this.LineTop.Name = "LineTop";
+            this.LineTop.Size = new System.Drawing.Size(825, 1);
+            this.LineTop.TabIndex = 18;
+            // 
+            // ListViewShow
+            // 
+            this.ListViewShow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ListViewShow.AutoScroll = true;
+            this.ListViewShow.HeaderHeight = 0;
+            cell1.Clicked = false;
+            cell1.Hovered = false;
+            cell1.Id = 0;
+            cell1.Location = new System.Drawing.Point(0, 0);
+            cell1.Name = "HeaderName";
+            cell1.Selected = false;
+            cell1.Size = new System.Drawing.Size(300, 36);
+            cell1.Text = "Name";
+            cell2.Clicked = false;
+            cell2.Hovered = false;
+            cell2.Id = 1;
+            cell2.Location = new System.Drawing.Point(300, 0);
+            cell2.Name = "HeaderSeasonNumber";
+            cell2.Selected = false;
+            cell2.Size = new System.Drawing.Size(178, 36);
+            cell2.Text = "Season number";
+            cell3.Clicked = false;
+            cell3.Hovered = false;
+            cell3.Id = 2;
+            cell3.Location = new System.Drawing.Point(478, 0);
+            cell3.Name = "HeaderEpisodeNumber";
+            cell3.Selected = false;
+            cell3.Size = new System.Drawing.Size(178, 36);
+            cell3.Text = "Episode number";
+            this.ListViewShow.Headers.Cells.AddRange(new EzpzChris.UserControls.ListView.Cell[] {
+            cell1,
+            cell2,
+            cell3});
+            this.ListViewShow.Headers.Size = new System.Drawing.Size(782, 36);
+            this.ListViewShow.ItemHeight = 0;
+            this.ListViewShow.Location = new System.Drawing.Point(20, 110);
+            this.ListViewShow.Margin = new System.Windows.Forms.Padding(20);
+            this.ListViewShow.Name = "ListViewShow";
+            this.ListViewShow.Size = new System.Drawing.Size(782, 270);
+            this.ListViewShow.TabIndex = 17;
+            // 
             // ShowManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(825, 554);
+            this.Controls.Add(this.LineBottom);
+            this.Controls.Add(this.LineTop);
+            this.Controls.Add(this.ListViewShow);
             this.Controls.Add(this.ButtonAdd);
             this.Controls.Add(this.ButtonEdit);
             this.Controls.Add(this.ButtonDelete);
@@ -183,6 +242,7 @@
         }
 
         #endregion
+
         private System.Windows.Forms.Panel PanelBottom;
         private System.Windows.Forms.Panel PanelTop;
         private System.Windows.Forms.Button ButtonCancel;
@@ -191,5 +251,8 @@
         private System.Windows.Forms.Button ButtonAdd;
         private System.Windows.Forms.Button ButtonEdit;
         private System.Windows.Forms.Button ButtonDelete;
+        private UserControls.ListView.ListView ListViewShow;
+        private UserControls.LineSeparator LineTop;
+        private UserControls.LineSeparator LineBottom;
     }
 }

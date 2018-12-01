@@ -7,11 +7,11 @@
 
     #endregion
 
-    public static class Settings
+    static class Settings
     {
         #region Properties
-        
-        public static string SettingDirectory => Path.Combine(Application.StartupPath, typeof(Settings).Name);
+
+        static string SettingDirectory => Path.Combine(Application.StartupPath, typeof(Settings).Name);
 
         #endregion
 

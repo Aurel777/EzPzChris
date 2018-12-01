@@ -11,8 +11,8 @@
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
-    using EzpzChris.Extensions;
-    using EzpzChris.Web.Uri;
+    using Extensions;
+    using Uri;
 
     #endregion
 

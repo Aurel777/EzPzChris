@@ -2,6 +2,7 @@
 {
     #region Using Statements
 
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -9,11 +10,11 @@
 
     #endregion
 
-    public class CellCollection : CollectionBase, INotifyPropertyChanged
+    public class CellCollection : CollectionBase
     {
         #region Events
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler CollectionChanged;
 
         #endregion
 
@@ -38,13 +39,13 @@
         public void Add(Cell cell)
         {
             InnerList.Add(cell);
-            OnPropertyChanged(new PropertyChangedEventArgs($"{cell.Name} added."));
+            OnCollectionChanged(EventArgs.Empty);
         }
 
         public void AddRange(Cell[] cells)
         {
             InnerList.AddRange(cells);
-            OnPropertyChanged(new PropertyChangedEventArgs($"{cells.Length} cells added."));
+            OnCollectionChanged(EventArgs.Empty);
         } 
 
         public bool Contains(Cell cell) => InnerList.Contains(cell);
@@ -54,25 +55,25 @@
         public void Remove(Cell cell)
         {
             InnerList.Remove(cell);
-            OnPropertyChanged(new PropertyChangedEventArgs($"{cell.Name} removed."));
-        } 
+            OnCollectionChanged(EventArgs.Empty);
+        }
 
-        public Cell[] ToArray()
+        IEnumerable<Cell> ToArray()
         {
             var cell = new Cell[InnerList.Count];
             InnerList.CopyTo(0, cell, 0, InnerList.Count);
             return cell;
         }
 
-        public List<Cell> ToList() => ToArray().ToList();
+        internal List<Cell> ToList() => ToArray().ToList();
         
         #endregion
 
         #region Protected Members
 
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        protected virtual void OnCollectionChanged(EventArgs e)
         {
-            var eventHandler = PropertyChanged;
+            var eventHandler = CollectionChanged;
             eventHandler?.Invoke(this, e);
         }
 

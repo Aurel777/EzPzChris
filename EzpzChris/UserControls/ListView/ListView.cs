@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms.VisualStyles;
+﻿using System.Drawing.Design;
 
 namespace EzpzChris.UserControls.ListView
 {
@@ -21,8 +21,10 @@ namespace EzpzChris.UserControls.ListView
     {
         #region  Private Fields
 
-        bool rebuild;
-        readonly List<Line> lines = new List<Line>();
+        int headerHeight;
+        int itemHeight;
+        List<Line> lines = new List<Line>();
+        Line headers;
         ITheme theme;
 
         #endregion
@@ -35,20 +37,54 @@ namespace EzpzChris.UserControls.ListView
         
         #region Properties
 
-        [Category("Data")]
-        public Line Headers { get; set; } = new Line();
+        [Category("Data"), Description("Get or set the headers"), Editor(typeof(CellCollectionEditor), typeof(UITypeEditor)),DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public Line Headers
+        {
+            get => headers ?? new Line();
+            set
+            {
+                if (value == null)
+                    return;
 
-        [Category("Behaviour"), DisplayName("Item line height."),Description("Sets the height of an item line.")]
-        public int ItemHeight { set; get; }
+                headers = value;
+                lines[0] = headers;
+            }
+        }
+
+        [Category("Behaviour"), Description("Sets the height of an item line."), DefaultValue(21)]
+        public int HeaderHeight
+        {
+            get => headerHeight;
+            set
+            {
+                headerHeight = value;
+                Invalidate();
+            }
+        }
+
+        [Category("Behaviour"), Description("Get of set the line height."), DefaultValue(23)]
+        public int ItemHeight
+        {
+            get => itemHeight;
+            set
+            {
+                itemHeight = value;
+                Invalidate();
+            }
+        }
 
         [Category("Behavior"), DisplayName("Sort triangle size"), DefaultValue(8),Description("Gets or sets the size of the sort triangle.")]
-        public int SortTriangleSize { get; set; } = 8;
+        public int SortTriangleSize { get; } = 8;
 
         [Category("Appearance"), Description("Gets or sets the current theme."), TypeConverter(typeof(ThemeConverter)), DefaultValue("Blue")]
         public string ThemeName
         {
-            get => theme.ThemeName; 
-            set =>  theme = ThemeManager.GetTheme(value);
+            get => theme.ThemeName;
+            set
+            {
+                theme = ThemeManager.GetTheme(value);
+                Invalidate();
+            }
         }
 
         protected override CreateParams CreateParams
@@ -72,21 +108,24 @@ namespace EzpzChris.UserControls.ListView
         protected override void OnMouseUp(MouseEventArgs e) => UpdateCellsProperties(PropertyToEdit.Selected, true);
            
         protected override void OnClick(EventArgs e) => UpdateCellsProperties(PropertyToEdit.Clicked, true);
-        
-        protected override void OnPaint(PaintEventArgs e) => Draw(e.Graphics);
 
         protected override void OnPaintBackground(PaintEventArgs e)
         {
-            using (var brush = new SolidBrush(BackColor))
-                e.Graphics.FillRectangle(brush, Bounds);
+            using(var backgroundBrush = new SolidBrush(theme.BackgroundColor))
+                e.Graphics.FillRectangle(backgroundBrush, ClientRectangle);
+
+            using(var borderPen = DrawingHelper.GetPen(theme.BorderColor, 1))
+                e.Graphics.DrawRectangle(borderPen, 0, 0, Width -2, Height -2);
         }
+
+        protected override void OnPaint(PaintEventArgs e) => Draw(e.Graphics);
         
-        protected override void OnLayout(LayoutEventArgs e)
+        /*protected override void OnLayout(LayoutEventArgs e)
         {
             base.OnLayout(e);
             if (e.AffectedProperty == "Bounds"  && Size != Size.Empty)
-                Build();
-        }
+                BuildHeaders();
+        }*/
         
         protected override void OnResize(EventArgs e)
         {
@@ -99,10 +138,9 @@ namespace EzpzChris.UserControls.ListView
         #endregion
 
         #region Members
-
-        public void Build()
+        
+        void BuildHeaders()
         {
-            lines.Clear();
             if (Headers == null)
                 return;
 
@@ -117,15 +155,7 @@ namespace EzpzChris.UserControls.ListView
         
             Invalidate();
         }
-
-        void Idle(object sender, EventArgs e)
-        {
-            if (!rebuild)
-                return;
-
-            rebuild = false;
-        }
-
+        
         static Cell GetCell(Point mouseLocation, Line targetLine)
         {
             var hitPoint = new Rectangle(mouseLocation, new Size(1, 1));
@@ -145,7 +175,6 @@ namespace EzpzChris.UserControls.ListView
         {
             DrawHeaders(graphics);
             //DrawItems(Graphics);
-            rebuild = false;
         }
 
         void DrawHeaders(Graphics graphics)
@@ -199,12 +228,12 @@ namespace EzpzChris.UserControls.ListView
                         graphics.PixelOffsetMode = PixelOffsetMode.Half;
                         if (cell.SortOrder == SortOrder.Ascending)
                             graphics.FillPolygon(Brushes.Black, new[] { new Point((cell.Width - SortTriangleSize)/2 + cell.Location.X, 0),
-                                                                new Point(((cell.Width - SortTriangleSize)/ 2) + SortTriangleSize + cell.Location.X, 0),
+                                                                new Point((cell.Width - SortTriangleSize)/ 2 + SortTriangleSize + cell.Location.X, 0),
                                                                 new Point(cell.Width /2 + cell.Location.X, SortTriangleSize/2) });
                         else
                             graphics.FillPolygon(Brushes.Black, new[] { new Point(cell.Width /2 + cell.Location.X, 0),
-                                                                new Point(((cell.Width - SortTriangleSize)/ 2) + cell.Location.X, SortTriangleSize /2),
-                                                                new Point(((cell.Width - SortTriangleSize)/ 2) + SortTriangleSize + cell.Location.X, SortTriangleSize /2)});
+                                                                new Point((cell.Width - SortTriangleSize)/ 2 + cell.Location.X, SortTriangleSize /2),
+                                                                new Point((cell.Width - SortTriangleSize)/ 2 + SortTriangleSize + cell.Location.X, SortTriangleSize /2)});
                     }
                 }
                 DrawText(graphics, cell);
@@ -213,24 +242,20 @@ namespace EzpzChris.UserControls.ListView
 
         void DrawText(Graphics graphics, Cell cell)
         {
-            if (!string.IsNullOrEmpty(cell.Text))
-            {
-                var size = TextRenderer.MeasureText(cell.Text, theme.Font);
-                var textLocation = PointF.Empty;
-                switch (cell.TextAlignment)
-                {
-                    case ContentAlignment.MiddleCenter: textLocation = new PointF(cell.X + ((cell.Width - size.Width) / 2), size.Height / 2); break;
-                    case ContentAlignment.MiddleLeft: textLocation = new PointF(65, (Size.Height - size.Height) / 2); break;
-                }
-                using (var textBrush = new SolidBrush(theme.ForeColor))
-                    graphics.DrawString(cell.Text, theme.Font, textBrush, textLocation);
-            }
+            if (string.IsNullOrWhiteSpace(cell.Text))
+                return;
+
+            var size = TextRenderer.MeasureText(cell.Text, theme.Font);
+            var textLocation = DrawingHelper.GetStringPosition(graphics, size, cell.TextAlignment, cell.Bounds);
+            using (var textBrush = new SolidBrush(theme.ForeColor))
+                graphics.DrawString(cell.Text, theme.Font, textBrush, textLocation);
         }
 
         void Initialize()
         {
-            lines.Add(new Line());
-            //theme = ThemeManager.GetTheme("Blue");
+            lines = new List<Line>();
+            headers = new Line();
+            theme = ThemeManager.GetTheme("Blue");
             AutoScroll = true;
             HScroll = false;
             VScroll = true;
@@ -239,7 +264,7 @@ namespace EzpzChris.UserControls.ListView
                      ControlStyles.ResizeRedraw |
                      ControlStyles.SupportsTransparentBackColor |
                      ControlStyles.UserPaint, true);
-            Application.Idle += Idle;
+            lines.Add(headers);
         }
 
         void UpdateCellsProperties(PropertyToEdit property, bool value)

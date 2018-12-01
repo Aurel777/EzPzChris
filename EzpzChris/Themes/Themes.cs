@@ -9,9 +9,10 @@
 
     public static class Themes
     {
-        public class Blue : ITheme, IDisposable
+        public class Blue : ITheme
         {
             public Color BackgroundColor { get; set; } = SystemColors.ControlLightLight;
+            public Color BackgroundColorDisabled { get; set; } = Color.FromArgb(238, 238, 238);
             public Color BackgroundColor2 { get; set; } = SystemColors.ControlLightLight;
             public Color BorderColor { get; set; } = Color.FromArgb(255, 222, 222, 222);
             public Color BorderDarkerColor { get; set; } = Color.FromArgb(255, 214, 214, 214);
@@ -27,17 +28,16 @@
             public Color SelectedColor { get; set; } = Color.FromArgb(255, 188, 228, 249);
             public Color SelectedColor2 { get; set; } = Color.FromArgb(255, 139, 211, 246);
 
-            public Color TextColor { get; set; } = Color.Black;
-
             public string ThemeName => "Blue";
 
             public void Dispose()=> Font?.Dispose();
         }
 
-        public sealed class Dark : ITheme, IDisposable
+        public sealed class Dark : ITheme
         {
             public Color BackgroundColor { get; set; }
             public Color BackgroundColor2 { get; set; }
+            public Color BackgroundColorDisabled { get; set; } = Color.Gray;
             public Color BorderDarkerColor { get; set; }
             public Color BorderColor { get; set; }
             public Font Font { get; set; }
@@ -53,10 +53,11 @@
             public void Dispose() => Font?.Dispose();
         }
 
-        public sealed class Light : ITheme, IDisposable
+        public sealed class Light : ITheme
         {
             public Color BackgroundColor { get; set; }
             public Color BackgroundColor2 { get; set; }
+            public Color BackgroundColorDisabled { get; set; } = Color.Gray;
             public Color BorderDarkerColor { get; set; }
             public Color BorderColor { get; set; }
             public Font Font { get; set; }

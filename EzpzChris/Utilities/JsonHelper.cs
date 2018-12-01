@@ -5,8 +5,8 @@
     using System.Collections.Generic;
     using System.IO;
 
-    using EzpzChris.Imdb;
-    using EzpzChris.Show;
+    using Imdb;
+    using Show;
 
     using Newtonsoft.Json;
 
@@ -14,7 +14,7 @@
 
     #endregion
 
-    public static class JsonHelper
+    static class JsonHelper
     {
         #region Constants
 

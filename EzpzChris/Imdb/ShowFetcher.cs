@@ -6,8 +6,8 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using EzpzChris.Utilities;
-    using EzpzChris.Web;
+    using Utilities;
+    using Web;
 
     using HtmlAgilityPack;
 

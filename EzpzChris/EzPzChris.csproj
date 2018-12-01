@@ -129,6 +129,9 @@
     <Compile Include="Themes\ThemeConverter.cs" />
     <Compile Include="Themes\ThemeManager.cs" />
     <Compile Include="Themes\Themes.cs" />
+    <Compile Include="UserControls\CheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UserControls\LineSeparator.cs">
       <SubType>Component</SubType>
     </Compile>

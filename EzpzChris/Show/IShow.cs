@@ -1,6 +1,6 @@
 ﻿namespace EzpzChris.Show
 {
-    public interface IShow
+    interface IShow
     {
         string Name { get; }
     }
